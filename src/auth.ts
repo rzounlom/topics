@@ -1,4 +1,4 @@
-import GitHub from "next-auth/providers/github";
+import Github from "next-auth/providers/github";
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/db";
@@ -7,7 +7,7 @@ const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
 if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
-  throw new Error("GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET must be set");
+  throw new Error("Missing github oauth credentials");
 }
 
 export const {
@@ -18,14 +18,15 @@ export const {
 } = NextAuth({
   adapter: PrismaAdapter(db),
   providers: [
-    GitHub({
+    Github({
       clientId: GITHUB_CLIENT_ID,
       clientSecret: GITHUB_CLIENT_SECRET,
     }),
   ],
   callbacks: {
-    // Usually not needed, here were are fixing a but in nextauth
+    // Usually not needed, here we are fixing a bug in nextauth
     async session({ session, user }: any) {
+      // console.log("session", session, user);
       if (session && user) {
         session.user.id = user.id;
       }
@@ -34,5 +35,3 @@ export const {
     },
   },
 });
-
-//  The  PrismaAdapter  is a custom adapter that we created to work with Prisma. It is a wrapper around the Prisma client that implements the required methods for NextAuth.
