@@ -1,6 +1,6 @@
 import { Divider } from "@nextui-org/react";
-import TopicCreateForm from "@/components/topic/topic-create-form";
-import TopicList from "@/components/topic/topic-list";
+import TopicCreateForm from "@/components/topics/topic-create-form";
+import TopicList from "@/components/topics/topic-list";
 
 export default function Home() {
   return (

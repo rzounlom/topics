@@ -11,7 +11,7 @@ import {
   Textarea,
 } from "@nextui-org/react";
 
-import FormButton from "../common/form-button";
+import FormButton from "@/components/common/form-button";
 import { useFormState } from "react-dom";
 
 export default function TopicCreateForm() {
