@@ -13,6 +13,30 @@ export type PostWithData = Post & {
   };
 };
 
+export function fetchPostsBySearchTerm(term: string): Promise<PostWithData[]> {
+  return db.post.findMany({
+    include: {
+      topic: { select: { slug: true } },
+      user: { select: { name: true, image: true } },
+      _count: { select: { comments: true } },
+    },
+    where: {
+      OR: [
+        {
+          title: {
+            contains: term,
+          },
+        },
+        {
+          content: {
+            contains: term,
+          },
+        },
+      ],
+    },
+  });
+}
+
 // auto-generated types
 
 // export type PostWithData = Awaited<ReturnType<typeof fetchPostsByTopicSlug>>[number]
